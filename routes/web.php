@@ -1,5 +1,6 @@
 <?php
 
+	use App\Http\Controllers\ListingController;
 	use App\Http\Controllers\RegisterStepTwoController;
 	use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,6 @@
 
 		Route::get('/register-step-two', [ RegisterStepTwoController::class, 'create' ])->name('register-step2.create');
 		Route::post('/register-step-two', [ RegisterStepTwoController::class, 'store' ])->name('register-step2.post');
+
+		Route::resource('listings', ListingController::class);
 	});
