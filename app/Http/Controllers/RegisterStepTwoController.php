@@ -23,6 +23,10 @@
 				]
 			);
 
+			if ( $request->hasFile('photo') ) {
+				auth()->user()->updateProfilePhoto($request->photo);
+			}
+
 			return redirect()->route('dashboard');
 		}
 	}
