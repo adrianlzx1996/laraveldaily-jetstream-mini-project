@@ -6,11 +6,68 @@
 	</x-slot>
 
 	<div class="py-12">
-		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-			<a class="mb-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+			<a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
 			   href="{{ route('listings.create') }}">{{ __("Add new Listing") }}</a>
+
+			<div class="">
+				<form action="" method="get">
+					<div class="grid sm:grid-cols-6 gap-2">
+						<input
+							class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+							type="text" name="title" id="title" placeholder="Search Title..."
+							value="{{ request('title') }}"/>
+
+						<select
+							class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+							name="category" id="category">
+							<option value="">- choose category -</option>
+							@foreach($categories as $category)
+								<option
+									{{ request('category') == $category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
+							@endforeach
+						</select>
+
+						<select
+							class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+							name="color" id="color">
+							<option value="">- choose color -</option>
+							@foreach($colors as $color)
+								<option
+									{{ request('color') == $color->id ? 'selected' : '' }} value="{{ $color->id }}">{{ $color->name }}</option>
+							@endforeach
+						</select>
+
+						<select
+							class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+							name="size" id="size">
+							<option value="">- choose size -</option>
+							@foreach($sizes as $size)
+								<option
+									{{ request('size') == $size->id ? 'selected' : '' }} value="{{ $size->id }}">{{ $size->name }}</option>
+							@endforeach
+						</select>
+
+						<select
+							class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+							name="city" id="city">
+							<option value="">- choose city -</option>
+							@foreach($cities as $city)
+								<option value="{{ $city->id }}">{{ $city->name }}</option>
+							@endforeach
+						</select>
+
+						<div>
+							<button
+								class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+							>{{ __("Search") }}</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
 			<div class="bg-white overflow-x-auto shadow-xl sm:rounded-lg">
-				<table class="divide-y divide-gray-300">
+				<table class="w-full divide-y divide-gray-300">
 					<thead class="bg-gray-50">
 					<tr>
 						<th class="px-6 py-6 text-left text-sm font-semibold text-gray-900"></th>
@@ -19,6 +76,7 @@
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categories</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Colors</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sizes</th>
+						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">City</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
 						<th colspan="2" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
 					</tr>
@@ -51,6 +109,10 @@
 								@foreach($listing->sizes as $size)
 									{{ $size->name }}
 								@endforeach
+							</td>
+
+							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+								{{ $listing->user->city->name ?? '' }}
 							</td>
 
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${{ $listing->price }}</td>

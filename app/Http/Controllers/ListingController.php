@@ -5,6 +5,7 @@
 	use App\Http\Requests\StoreListingRequest;
 	use App\Http\Requests\UpdateListingRequest;
 	use App\Models\Category;
+	use App\Models\City;
 	use App\Models\Color;
 	use App\Models\Listing;
 	use App\Models\Size;
@@ -19,9 +20,39 @@
 		 */
 		public function index ()
 		{
-			$listings = Listing::with([ 'categories', 'colors', 'sizes' ])->get();
+			$listings = Listing::with([ 'categories', 'colors', 'sizes', 'user.city' ])
+							   ->when(request('title'), function ( $query ) {
+								   return $query->where('title', 'like', '%' . request('title') . '%');
+							   })
+							   ->when(request('category'), function ( $query ) {
+								   return $query->whereHas('categories', function ( $query ) {
+									   $query->where('category_id', request('category'));
+								   });
+							   })
+							   ->when(request('size'), function ( $query ) {
+								   return $query->whereHas('sizes', function ( $query ) {
+									   $query->where('size_id', request('size'));
+								   });
+							   })
+							   ->when(request('color'), function ( $query ) {
+								   return $query->whereHas('colors', function ( $query ) {
+									   $query->where('color_id', request('color'));
+								   });
+							   })
+							   ->when(request('city'), function ( $query ) {
+								   return $query->whereHas('user.city', function ( $query ) {
+									   $query->where('id', request('city'));
+								   });
+							   })
+							   ->get()
+			;
 
-			return view('listings.index', compact('listings'));
+			$categories = Category::all()->sortBy('name');
+			$colors     = Color::all()->sortBy('name');
+			$cities     = City::all()->sortBy('name');
+			$sizes      = Size::all();
+
+			return view('listings.index', compact('listings', 'categories', 'cities', 'colors', 'sizes'));
 		}
 
 		/**
