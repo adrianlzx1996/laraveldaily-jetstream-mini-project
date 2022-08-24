@@ -4,6 +4,7 @@
 
 	use App\Http\Requests\StoreListingRequest;
 	use App\Http\Requests\UpdateListingRequest;
+	use App\Models\Category;
 	use App\Models\Listing;
 	use Illuminate\Http\RedirectResponse;
 
@@ -16,7 +17,7 @@
 		 */
 		public function index ()
 		{
-			$listings = Listing::all();
+			$listings = Listing::with('categories')->get();
 
 			return view('listings.index', compact('listings'));
 		}
@@ -38,6 +39,8 @@
 				}
 			}
 
+			$listing->categories()->attach($request->categories);
+
 			return redirect()->route('listings.index')->with('success', 'Listing created successfully.');
 		}
 
@@ -48,7 +51,9 @@
 		 */
 		public function create ()
 		{
-			return view('listings.create');
+			$categories = Category::all();
+
+			return view('listings.create', compact('categories'));
 		}
 
 		/**
@@ -74,9 +79,12 @@
 		{
 			$this->authorize('update', $listing);
 
-			$media = $listing->getMedia('listings');
+			$listing->load('categories');
 
-			return view('listings.edit', compact('listing', 'media'));
+			$media      = $listing->getMedia('listings');
+			$categories = Category::all();
+
+			return view('listings.edit', compact('listing', 'media', 'categories'));
 		}
 
 		/**
@@ -98,6 +106,8 @@
 					$listing->addMediaFromRequest('photo' . $i)->toMediaCollection('listings');
 				}
 			}
+
+			$listing->categories()->sync($request->categories);
 
 			return redirect()->route('listings.index')->with('success', 'Listing updated successfully.');
 		}

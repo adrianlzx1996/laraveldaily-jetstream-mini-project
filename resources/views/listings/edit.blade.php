@@ -78,6 +78,29 @@
 					<x-jet-input-error for="photo3"/>
 				</div>
 
+				<div class="mt-4">
+					<x-jet-label for="categories" value="{{ __('Categories') }}"/>
+					<div class="space-y-2">
+						@foreach($categories as $category)
+							<div class="relative flex items-start">
+								<div class="flex items-center h-5">
+									<input id="{{ $category->name }}" name="categories[]"
+									       type="checkbox"
+									       value="{{ $category->id }}"
+									       @if(in_array($category->id, $listing->categories->pluck('id')->toArray())) checked
+									       @endif
+									       class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+								</div>
+								<div class="ml-3 text-sm">
+									<label for="{{ $category->name }}"
+									       class="font-medium text-gray-700">{{ $category->name }}</label>
+								</div>
+							</div>
+						@endforeach
+					</div>
+					<x-jet-input-error for="categories"/>
+				</div>
+
 				<div class="flex items-center mt-6">
 					<x-jet-button class="">
 						{{ __('Save Listing') }}
