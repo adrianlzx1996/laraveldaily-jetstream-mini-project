@@ -66,6 +66,7 @@
 		 */
 		public function edit ( Listing $listing )
 		{
+			$this->authorize('update', $listing);
 			return view('listings.edit', compact('listing'));
 		}
 
@@ -93,6 +94,8 @@
 		 */
 		public function destroy ( Listing $listing )
 		{
+			$this->authorize('delete', $listing);
+			
 			$listing->delete();
 
 			return redirect()->route('listings.index')->with('success', 'Listing deleted successfully.');
