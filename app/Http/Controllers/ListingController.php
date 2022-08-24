@@ -30,7 +30,7 @@
 		 */
 		public function store ( StoreListingRequest $request )
 		: RedirectResponse {
-			Listing::create($request->validated());
+			auth()->user()->listings()->create($request->validated());
 
 			return redirect()->route('listings.index')->with('success', 'Listing created successfully.');
 		}

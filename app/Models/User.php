@@ -64,4 +64,9 @@
 			= [
 				'profile_photo_url',
 			];
+
+		public function listings ()
+		{
+			return $this->hasMany(Listing::class);
+		}
 	}
