@@ -65,6 +65,11 @@
 				'profile_photo_url',
 			];
 
+		public function city ()
+		{
+			return $this->belongsTo(City::class);
+		}
+
 		public function listings ()
 		{
 			return $this->hasMany(Listing::class);
