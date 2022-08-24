@@ -44,7 +44,8 @@
 									   $query->where('id', request('city'));
 								   });
 							   })
-							   ->get()
+							   ->paginate(5)
+							   ->withQueryString()
 			;
 
 			$categories = Category::all()->sortBy('name');
