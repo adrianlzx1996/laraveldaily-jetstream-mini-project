@@ -70,6 +70,48 @@
 					<x-jet-input-error for="categories"/>
 				</div>
 
+				<div class="mt-4">
+					<x-jet-label for="colors" value="{{ __('Colors') }}"/>
+					<div class="space-y-2">
+						@foreach($colors as $color)
+							<div class="relative flex items-start">
+								<div class="flex items-center h-5">
+									<input id="{{ $color->name }}" name="colors[]"
+									       type="checkbox"
+									       value="{{ $color->id }}"
+									       class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+								</div>
+								<div class="ml-3 text-sm">
+									<label for="{{ $color->name }}"
+									       class="font-medium text-gray-700">{{ $color->name }}</label>
+								</div>
+							</div>
+						@endforeach
+					</div>
+					<x-jet-input-error for="colors"/>
+				</div>
+
+				<div class="mt-4">
+					<x-jet-label for="sizes" value="{{ __('Sizes') }}"/>
+					<div class="space-y-2">
+						@foreach($sizes as $size)
+							<div class="relative flex items-start">
+								<div class="flex items-center h-5">
+									<input id="{{ $size->name }}" name="sizes[]"
+									       type="checkbox"
+									       value="{{ $size->id }}"
+									       class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+								</div>
+								<div class="ml-3 text-sm">
+									<label for="{{ $size->name }}"
+									       class="font-medium text-gray-700">{{ $size->name }}</label>
+								</div>
+							</div>
+						@endforeach
+					</div>
+					<x-jet-input-error for="sizes"/>
+				</div>
+
 				<div class="flex items-center mt-6">
 					<x-jet-button class="">
 						{{ __('Save Listing') }}

@@ -17,6 +17,8 @@
 						<th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categories</th>
+						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Colors</th>
+						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sizes</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
 						<th colspan="2" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
 					</tr>
@@ -32,11 +34,25 @@
 							</td>
 							<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $listing->title }}</td>
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $listing->description }}</td>
+
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 								@foreach($listing->categories as $category)
 									{{ $category->name }}
 								@endforeach
 							</td>
+
+							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+								@foreach($listing->colors as $color)
+									{{ $color->name }}
+								@endforeach
+							</td>
+
+							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+								@foreach($listing->sizes as $size)
+									{{ $size->name }}
+								@endforeach
+							</td>
+
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${{ $listing->price }}</td>
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 								@can('update', $listing)
