@@ -10,9 +10,10 @@
 			<a class="mb-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
 			   href="{{ route('listings.create') }}">{{ __("Add new Listing") }}</a>
 			<div class="bg-white overflow-x-auto shadow-xl sm:rounded-lg">
-				<table class="min-w-full divide-y divide-gray-300">
+				<table class="divide-y divide-gray-300">
 					<thead class="bg-gray-50">
 					<tr>
+						<th class="px-6 py-6 text-left text-sm font-semibold text-gray-900"></th>
 						<th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
 						<th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
@@ -22,6 +23,12 @@
 					<tbody class="divide-y divide-gray-200 bg-white">
 					@foreach($listings as $listing)
 						<tr>
+							<td class="">
+								@if ($listing->getFirstMediaUrl('listings','thumb'))
+									<img class="w-10 h-10" src="{{ $listing->getFirstMediaUrl('listings','thumb') }}"
+									     alt="{{ $listing->title }}">
+								@endif
+							</td>
 							<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $listing->title }}</td>
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $listing->description }}</td>
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $listing->price }}</td>

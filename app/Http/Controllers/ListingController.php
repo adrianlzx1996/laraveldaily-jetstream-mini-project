@@ -30,7 +30,13 @@
 		 */
 		public function store ( StoreListingRequest $request )
 		: RedirectResponse {
-			auth()->user()->listings()->create($request->validated());
+			$listing = auth()->user()->listings()->create($request->validated());
+
+			for ( $i = 1; $i <= 3; $i++ ) {
+				if ( $request->hasFile('photo' . $i) ) {
+					$listing->addMediaFromRequest('photo' . $i)->toMediaCollection('listings');
+				}
+			}
 
 			return redirect()->route('listings.index')->with('success', 'Listing created successfully.');
 		}
@@ -67,7 +73,10 @@
 		public function edit ( Listing $listing )
 		{
 			$this->authorize('update', $listing);
-			return view('listings.edit', compact('listing'));
+
+			$media = $listing->getMedia('listings');
+
+			return view('listings.edit', compact('listing', 'media'));
 		}
 
 		/**
@@ -80,7 +89,15 @@
 		 */
 		public function update ( UpdateListingRequest $request, Listing $listing )
 		: RedirectResponse {
+			$this->authorize('update', $listing);
+
 			$listing->update($request->validated());
+
+			for ( $i = 1; $i <= 3; $i++ ) {
+				if ( $request->hasFile('photo' . $i) ) {
+					$listing->addMediaFromRequest('photo' . $i)->toMediaCollection('listings');
+				}
+			}
 
 			return redirect()->route('listings.index')->with('success', 'Listing updated successfully.');
 		}
@@ -95,9 +112,18 @@
 		public function destroy ( Listing $listing )
 		{
 			$this->authorize('delete', $listing);
-			
+
 			$listing->delete();
 
 			return redirect()->route('listings.index')->with('success', 'Listing deleted successfully.');
+		}
+
+		public function deletePhoto ( $listingId, $photoId )
+		: RedirectResponse {
+			$listing = Listing::where('user_id', auth()->id())->findOrFail($listingId);
+
+			$listing->getMedia('listings')->where('id', $photoId)->first()->delete();
+
+			return redirect()->route('listings.edit', $listingId)->with('success', 'Photo deleted successfully.');
 		}
 	}

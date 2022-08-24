@@ -7,7 +7,7 @@
 
 	<div class="py-12">
 		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-			<form action="{{ route('listings.store') }}" method="post">
+			<form action="{{ route('listings.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 
 				<div>
@@ -29,6 +29,24 @@
 					<x-jet-input id="price" class="block mt-1 w-full" type="text" name="price"
 					             :value="old('price')"/>
 					<x-jet-input-error for="price"/>
+				</div>
+
+				<div class="mt-4">
+					<x-jet-label for="photo1" value="{{ __('Photo 1') }}"/>
+					<input type="file" id="photo1" name="photo1"/>
+					<x-jet-input-error for="photo1"/>
+				</div>
+
+				<div class="mt-4">
+					<x-jet-label for="photo2" value="{{ __('Photo 2') }}"/>
+					<input type="file" id="photo2" name="photo2"/>
+					<x-jet-input-error for="photo2"/>
+				</div>
+
+				<div class="mt-4">
+					<x-jet-label for="photo3" value="{{ __('Photo 3') }}"/>
+					<input type="file" id="photo3" name="photo3"/>
+					<x-jet-input-error for="photo3"/>
 				</div>
 
 				<div class="flex items-center mt-6">
