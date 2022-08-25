@@ -74,4 +74,9 @@
 		{
 			return $this->hasMany(Listing::class);
 		}
+
+		public function savedListings ()
+		{
+			return $this->belongsToMany(Listing::class);
+		}
 	}

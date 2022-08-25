@@ -28,6 +28,11 @@
 			return $this->belongsTo(User::class);
 		}
 
+		public function savedUsers ()
+		{
+			return $this->belongsToMany(User::class);
+		}
+
 		public function categories ()
 		{
 			return $this->belongsToMany(Category::class);
