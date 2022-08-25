@@ -7,6 +7,13 @@
 
 	<div class="py-12">
 		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+			@if(session('message'))
+				<div class="bg-green-100 border-l-4 border-green-500 rounded-lg shadow-lg text-green-700 p-4"
+				     role="alert">
+					{{ session('message') }}
+				</div>
+			@endif
+
 			<a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
 			   href="{{ route('listings.create') }}">{{ __("Add new Listing") }}</a>
 
@@ -92,7 +99,12 @@
 									     alt="{{ $listing->title }}">
 								@endif
 							</td>
-							<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $listing->title }}</td>
+							<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+								{{ $listing->title }}
+								<br>
+								<a href="{{ route('messages.create') }}?listing_id={{ $listing->id }}"
+								   class="underline">Send Message</a>
+							</td>
 							<td class="px-3 py-4 text-sm text-gray-500">{{ $listing->description }}</td>
 
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
