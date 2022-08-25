@@ -57,6 +57,8 @@
 							@endforeach
 						</select>
 
+						<livewire:listing-save-checkbox/>
+
 						<div>
 							<button
 								class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
@@ -117,6 +119,9 @@
 
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${{ $listing->price }}</td>
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+								@if($listing->user_id != auth()->user()->id)
+									<livewire:listing-save-button :listing-id="$listing->id"/>
+								@endif
 								@can('update', $listing)
 									<a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
 									   href="{{ route('listings.edit', $listing) }}">Edit</a>
