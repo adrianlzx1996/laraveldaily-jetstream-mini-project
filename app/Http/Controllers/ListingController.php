@@ -44,6 +44,11 @@
 									   $query->where('id', request('city'));
 								   });
 							   })
+							   ->when(request('saved'), function ( $query ) {
+								   return $query->whereHas('savedUsers', function ( $query ) {
+									   $query->where('id', auth()->user()->id);
+								   });
+							   })
 							   ->paginate(5)
 							   ->withQueryString()
 			;
